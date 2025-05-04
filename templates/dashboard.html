@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard - Fast Food Nutrition Portal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <h1>Fast Food Nutrition Portal</h1>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <div class="welcome">
+        <h2>Welcome, {{ name }}!</h2>
+    </div>
+
+    <div class="cards">
+        <div class="card">Total Items: {{ total_items }}</div>
+        <div class="card">Average Calories: {{ avg_calories|round(2) }}</div>
+        <div class="card">Average Protein: {{ avg_protein|round(2) }}</div>
+    </div>
+
+    <div class="charts">
+        <canvas id="barChart" width="400" height="200"></canvas>
+        <canvas id="pieChart" width="400" height="200"></canvas>
+    </div>
+
+    <div class="table-container">
+        <input type="text" id="searchInput" onkeyup="searchTable()" placeholder="Search for food items..">
+        <button onclick="exportTableToCSV()">Export to CSV</button>
+        <table id="nutritionTable">
+            <thead>
+                <tr>
+                    <th>Item</th>
+                    <th>Calories</th>
+                    <th>Fat</th>
+                    <th>Carbs</th>
+                    <th>Fiber</th>
+                    <th>Protein</th>
+                    <th>Sodium</th>
+                    <th>Sugars</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item['Item'] }}</td>
+                    <td>{{ item['Calories'] }}</td>
+                    <td>{{ item['Total Fat'] }}</td>
+                    <td>{{ item['Carbs'] }}</td>
+                    <td>{{ item['Fiber'] }}</td>
+                    <td>{{ item['Protein'] }}</td>
+                    <td>{{ item['Sodium'] }}</td>
+                    <td>{{ item['Sugars'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>
